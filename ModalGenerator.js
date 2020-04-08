@@ -1,10 +1,8 @@
 window.onload = function () {
-  const generatePopUpHandler = (function generatePopUpHandler() {
+  const generateModal = (function generateModal() {
     const modalGeneralClass = "modal-generator";
     const checkClickedInsideElement = (selector, targetElm) => {
-      const myElementToCheckIfClicksAreInsideOf = document.querySelector(selector);
-      return myElementToCheckIfClicksAreInsideOf &&
-        myElementToCheckIfClicksAreInsideOf.contains(targetElm)
+      return targetElm.closest(selector);
     };
 
     const removeModal = () => {
@@ -73,17 +71,19 @@ window.onload = function () {
             `;
 
     return function ({
-      modalHeight,
-      modalWidth,
-      heading,
-      cssStr,
-      content,
+      modalHeight = 150,
+      modalWidth = 300,
+      heading = '',
+      cssStr = '',
+      content = '',
+      allowedSelectorsClick,
+      closeOnOutsideClick = false,
       cssClass = [],
     }) {
       const windowHeight = window.innerHeight;
       const windowWidth = window.innerWidth;
-      const popUpHeight = modalHeight || 150;
-      const popUpWidth = modalWidth || 300;
+      const popUpHeight = modalHeight;
+      const popUpWidth = modalWidth;
       const additionalMargin = 20;
       const style = document.createElement("style");
       style.innerHTML = defaultStyle + cssStr;
@@ -95,44 +95,55 @@ window.onload = function () {
           checkClickedInsideElement('.close', evt.target) && removeModal();
           return;
         }
+        if (allowedSelectorsClick && !allowedSelectorsClick.filter(x => checkClickedInsideElement(x, evt.target)).length) {
+          closeOnOutsideClick && removeModal();
+          return;
+        };
         removeModal();
+        evt.preventDefault();
+        evt.stopPropagation();
+        const sectionContent = evt.target.tagName.toLowerCase() === 'a' ? `<iframe style="height: 100%; width: 100%;" src='${evt.target.href}'> </iframe>` : content;
         const div = document.createElement("div");
         cssClass.unshift(modalGeneralClass);
         div.classList.add(...cssClass);
         div.style.height = `${popUpHeight}px`;
         div.style.width = `${popUpWidth}px`;
         div.style.position = "absolute";
+        const evtClickedCoordinate = evt.pageY;
         div.style.left = `${
           evt.clientX + popUpWidth > windowWidth
             ? evt.clientX - popUpWidth - additionalMargin
             : evt.clientX + additionalMargin
           }px`;
         div.style.top = `${
-          evt.clientY + popUpHeight > windowHeight
-            ? evt.clientY - popUpHeight
-            : evt.clientY
+          evtClickedCoordinate + popUpHeight > windowHeight
+            ? evtClickedCoordinate - popUpHeight
+            : evtClickedCoordinate
           }px`;
+
         div.innerHTML = `
     <header><span>${heading}</span> <span class="close"> </span> </header>
     <section class="main-section">
-    ${content}
+    ${sectionContent || content}
     </section>`;
         document.body.appendChild(div);
       });
     };
   })();
 
-  generatePopUpHandler({
-    // modalHeight: 200,
-    // modalWidth: 300,
+  generateModal({
+    // modalHeight: 400,
+    // modalWidth: 400,
     heading: "Types of actions",
     content: `Dialogs should contain a maximum of two actions.
 If a single action is provided, it must be an acknowledgement action.
 If two actions are provided, one must be a confirming action, and the other a dismissing action.
 Providing a third action such as “Learn more” is not recommended as it navigates the user away from the dialog, leaving the dialog task unfinished`,
     cssClass: ["myClass", "test-classing"],
-    cssStr: `.myClass {
-        background-color: #ececec;
-    }`,
+    allowedSelectorsClick: ['.allow', '.second-allow', 'a'],
+    closeOnOutsideClick: true,
+    // cssStr: `.myClass {
+    //     background-color: #ececec;
+    // }`,
   });
 };

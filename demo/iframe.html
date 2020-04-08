@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pop Up Generator Example</title>
+    <script src="../ModalGenerator.js"></script>
+    <script src="./demo.js"></script>
+    <style>
+        main {
+            display: grid;
+            grid-gap: 16px;
+            grid-template-columns: repeat(2, 1fr) minmax(50px, 1fr);
+            grid-template-rows: repeat(10, min-content);
+            // grid-auto-flow will move cells to fit into grid where gaps are made (resize window to see gaps)
+            // grid-auto-flow: dense;
+
+            @include bp(large) {
+                grid-template-columns: 10vw minmax(50px, 50vw) repeat(2, 1fr);
+                grid-template-rows: repeat(10, min-content);
+            }
+        }
+
+        [data-grid='grid-cell'] {
+            border-color: rgb(255, 0, 72);
+
+            &:hover {
+                background: rgb(255, 0, 72);
+            }
+        }
+
+        [data-grid='grid-column'] {
+            border-color: rgba(2, 143, 118, .8);
+            grid-column: 3;
+            grid-row: 2 / 9;
+
+            @include bp(large) {
+                grid-column: 4;
+                grid-row: 1 / 6;
+            }
+
+            &:hover {
+                background: rgba(2, 143, 118, .8);
+            }
+
+            // Showing overlap
+            position: relative;
+
+            &:after {
+                background: hsla(0, 0%, 10%, .4);
+                bottom: 0;
+                color: hsl(0, 0, 100%);
+                content: "As you can see, grid tracks can overlap";
+                left: 0;
+                padding: .7rem;
+                position: absolute;
+                right: 0;
+            }
+        }
+
+        [data-grid='grid-area'] {
+            border-color: rgb(138, 0, 84);
+            grid-column: 1 / span 2;
+            grid-row: span 3;
+
+            @include bp(large) {
+                grid-column: 2;
+            }
+
+            &:hover {
+                background: rgb(138, 0, 84);
+            }
+        }
+
+        .allow {
+            border: 2px solid cyan;
+            ;
+        }
+
+        [data-grid='grid-row'] {
+            background: rgba(255, 255, 255, .5);
+            border-color: rgba(38, 95, 163, .8);
+            grid-column: 1 / -1; // -1 jumps to the last grid line to count from the end
+            grid-row: 8;
+
+            @include bp(large) {
+                // declare row to get the overlap
+                grid-row: 5;
+            }
+
+            &:hover {
+                background: rgba(38, 95, 163, .8);
+            }
+        }
+
+        .title {
+            grid-column: 1 / -1;
+            grid-row: 1;
+
+            @include bp(large) {
+                grid-column: 2;
+            }
+        }
+
+        // Styles for fun
+        // -------------------------------------------------
+        @import url('https://fonts.googleapis.com/css?family=Scope+One|Open+Sans:700');
+
+        body {
+            background: #fff;
+            color: rgb(113, 115, 136);
+            font-family: 'Scope One', sans-serif;
+            font-size: 1rem;
+            line-height: 1;
+            margin: 1rem;
+        }
+
+        h1,
+        h2 {
+            margin: 0;
+        }
+
+        div {
+            border: 1px solid #ddd;
+            padding: .75vw 1vw;
+        }
+
+        h1 {
+            color: rgb(113, 115, 136);
+            font-size: 4.5rem;
+            font-weight: 700;
+            padding-top: .5rem;
+        }
+
+        h2 {
+            color: #999;
+            font-size: 1.25rem;
+        }
+
+        [data-grid] {
+            border-width: 1px;
+            border-style: solid;
+
+            &:hover {
+                color: #fff;
+            }
+        }
+
+        a {
+            color: #E4844A;
+        }
+
+        p {
+            line-height: 1.5;
+        }
+
+        strong {
+            display: block;
+            font-family: "Open Sans", sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        footer {
+            display: grid;
+            grip-gap: 16px;
+            grid-template-columns: 10vw minmax(50px, 50vw) 1fr 2fr;
+            margin: 0 1rem;
+
+            p {
+                grid-column: 2 / 4;
+                margin-bottom: 5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <p>⬇ Grid lines are the horizontal and vertical dividing lines of the grid.</p>
+    <main>
+        <div class="allow">1 <a
+                href="file:///Users/abhishek31.kumar/Personal/Projects/PopUpGenerator/demo/iframe.html">Visit
+                W3Schools.com!</a>
+        </div>
+        <div class="title">2
+            <h1>CSS Grid Layout</h1>
+            <h2>New Terminology</h2>
+        </div>
+        <div class="allow">3</div>
+        <div data-grid="grid-column" class="second-allow">4
+            <p><strong>Grid Track (Column)</strong> A grid track is the space between two adjacent grid lines, forming a
+                grid
+                column or grid row.</p>
+        </div>
+        <div>5</div>
+        <div data-grid="grid-area" class="allow">6
+            <p><strong>Grid Area</strong> A grid area consists of one or more adjecent grid cells. It is bound by four
+                grid
+                lines, one on each side of the grid area.</p>
+        </div>
+        <div data-grid="grid-cell">7
+            <p><strong>Grid Cell
+                    <a href="file:///Users/abhishek31.kumar/Personal/Projects/PopUpGenerator/demo/iframe.html">Visit
+                        W3Schools.com!</a>
+                </strong> A grid cell is the smallest unit of the grid. A grid cell is the intersection of a
+                grid row and a grid column.</p>
+        </div>
+        <div>8</div>
+        <div>9</div>
+        <div>10</div>
+        <div>11</div>
+        <div class="allow" data-grid="grid-row">12
+            <p><strong>Grid Track (Row)</strong> A grid track is the space between two adjacent grid lines, forming a
+                grid
+                column or grid row.</p>
+        </div>
+    </main>
+    <footer>
+        [[[https://codepen.io/stacy/pen/f1639a51a21481925379ac4580c6fe2e]]]
+
+    </footer>
+
+</body>
+
+</html>
