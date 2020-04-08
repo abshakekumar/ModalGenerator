@@ -1,6 +1,18 @@
 window.onload = function () {
   const generatePopUpHandler = (function generatePopUpHandler() {
-    const defaultStyle = `.modal-generator {
+    const modalGeneralClass = "modal-generator";
+    const checkClickedInsideElement = (selector, targetElm) => {
+      const myElementToCheckIfClicksAreInsideOf = document.querySelector(selector);
+      return myElementToCheckIfClicksAreInsideOf &&
+        myElementToCheckIfClicksAreInsideOf.contains(targetElm)
+    };
+
+    const removeModal = () => {
+      document.querySelector(`.${modalGeneralClass}`) &&
+        document.body.removeChild(document.querySelector(`.${modalGeneralClass}`));
+    };
+
+    const defaultStyle = `.${modalGeneralClass} {
             background-color: white;
             z-index: 999;
             flex-direction: column;
@@ -12,7 +24,7 @@ window.onload = function () {
             animation: come-in 0.4s ease forwards;
             box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)
                 }
-                .modal-generator > header {
+                .${modalGeneralClass} > header {
                     font-size: 1.2rem;
                     color: rgba(0,0,0,0.87);
                     display: flex;
@@ -20,7 +32,7 @@ window.onload = function () {
                     justify-content: space-between;
                     align-items: center;
                 }
-                .modal-generator > .main-section {
+                .${modalGeneralClass} > .main-section {
                     flex: 1;
                     color: rgba(0,0,0,0.37);
                     overflow: auto;
@@ -70,7 +82,7 @@ window.onload = function () {
     }) {
       const windowHeight = window.innerHeight;
       const windowWidth = window.innerWidth;
-      const popUpHeight = modalHeight || 300;
+      const popUpHeight = modalHeight || 150;
       const popUpWidth = modalWidth || 300;
       const additionalMargin = 20;
       const style = document.createElement("style");
@@ -79,11 +91,13 @@ window.onload = function () {
       document.body.appendChild(style);
 
       document.addEventListener("click", function (evt) {
-        document.querySelector(".modal-generator") &&
-          document.body.removeChild(document.querySelector(".modal-generator"));
-        // document.getElementById('style-container') && document.body.removeChild(document.getElementById('style-container'))
+        if (checkClickedInsideElement(`.${modalGeneralClass}`, evt.target)) {
+          checkClickedInsideElement('.close', evt.target) && removeModal();
+          return;
+        }
+        removeModal();
         const div = document.createElement("div");
-        cssClass.push("modal-generator");
+        cssClass.unshift(modalGeneralClass);
         div.classList.add(...cssClass);
         div.style.height = `${popUpHeight}px`;
         div.style.width = `${popUpWidth}px`;
@@ -92,14 +106,14 @@ window.onload = function () {
           evt.clientX + popUpWidth > windowWidth
             ? evt.clientX - popUpWidth - additionalMargin
             : evt.clientX + additionalMargin
-        }px`;
+          }px`;
         div.style.top = `${
           evt.clientY + popUpHeight > windowHeight
             ? evt.clientY - popUpHeight
             : evt.clientY
-        }px`;
+          }px`;
         div.innerHTML = `
-    <header>${heading} <span class="close" onClick="console.log('cross clicked')"> </span> </header>
+    <header><span>${heading}</span> <span class="close"> </span> </header>
     <section class="main-section">
     ${content}
     </section>`;
@@ -109,18 +123,16 @@ window.onload = function () {
   })();
 
   generatePopUpHandler({
-    modalHeight: 200,
-    modalWidth: 300,
-    heading: "Modal Heading",
-    content: `<p>
-      sdsadsdsd as
-      dasssdsdsd sd asd asdsadsds <span>hasjhdjksad kasdkasd</span> 
-      asd as
-      dasd</p>`,
+    // modalHeight: 200,
+    // modalWidth: 300,
+    heading: "Types of actions",
+    content: `Dialogs should contain a maximum of two actions.
+If a single action is provided, it must be an acknowledgement action.
+If two actions are provided, one must be a confirming action, and the other a dismissing action.
+Providing a third action such as “Learn more” is not recommended as it navigates the user away from the dialog, leaving the dialog task unfinished`,
     cssClass: ["myClass", "test-classing"],
     cssStr: `.myClass {
-        background-color: 'red';
+        background-color: #ececec;
     }`,
   });
 };
-// export default generatePopUpHandler;
