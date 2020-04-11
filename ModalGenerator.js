@@ -146,4 +146,19 @@ Providing a third action such as “Learn more” is not recommended as it navig
     //     background-color: #ececec;
     // }`,
   });
+
+
+  generateModal({
+    modalHeight: 200,
+    modalWidth: 200,
+    heading: "Another Modal",
+    content: `Dialogs should contain a maximum of two actions.`,
+    cssClass: ["myClass", "test-other-modal-container-class"],
+    allowedSelectorsClick: ['.other-modal'],
+    closeOnOutsideClick: true,
+    // cssStr: `.myClass {
+    //     background-color: #ececec;
+    // }`,
+  });
+
 };

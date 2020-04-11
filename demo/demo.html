@@ -173,28 +173,29 @@
         margin-bottom: 5rem;
       }
     }
+    .allow {
+      background-color: darkgreen;
+    }
+    .second-allow {
+      background-color: darkolivegreen;
+    }
+    .other-modal {
+      background-color: darkorange;
+    }
   </style>
 </head>
 
 <body>
-  <p>⬇ Grid lines are the horizontal and vertical dividing lines of the grid.</p>
+  <p>Modal is allowed on click of Green Coloured Div</p>
   <main>
     <div class="allow">1 <a
         href="file:///Users/abhishek31.kumar/Personal/Projects/PopUpGenerator/demo/iframe.html">Visit W3Schools.com!</a>
     </div>
-    <div class="title">2
-      <h1>CSS Grid Layout</h1>
-      <h2>New Terminology</h2>
-    </div>
     <div class="allow">3</div>
     <div data-grid="grid-column" class="second-allow">4
-      <p><strong>Grid Track (Column)</strong> A grid track is the space between two adjacent grid lines, forming a grid
-        column or grid row.</p>
     </div>
     <div>5</div>
     <div data-grid="grid-area" class="allow">6
-      <p><strong>Grid Area</strong> A grid area consists of one or more adjecent grid cells. It is bound by four grid
-        lines, one on each side of the grid area.</p>
     </div>
     <div data-grid="grid-cell">7
       <p><strong>Grid Cell
@@ -203,7 +204,7 @@
         </strong> A grid cell is the smallest unit of the grid. A grid cell is the intersection of a
         grid row and a grid column.</p>
     </div>
-    <div>8</div>
+    <div class="other-modal">8</div>
     <div>9</div>
     <div>10</div>
     <div>11</div>
@@ -212,10 +213,6 @@
         column or grid row.</p>
     </div>
   </main>
-  <footer>
-    [[[https://codepen.io/stacy/pen/f1639a51a21481925379ac4580c6fe2e]]]
-
-  </footer>
 
 </body>
 
