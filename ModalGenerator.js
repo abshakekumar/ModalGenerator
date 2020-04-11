@@ -69,6 +69,10 @@ window.onload = function () {
                     }
 
             `;
+    const style = document.createElement("style");
+    style.innerHTML = defaultStyle;
+    style.id = "style-container";
+    document.body.appendChild(style);
 
     return function ({
       modalHeight = 150,
@@ -79,55 +83,56 @@ window.onload = function () {
       allowedSelectorsClick,
       closeOnOutsideClick = false,
       cssClass = [],
+      useHover = false
     }) {
       const windowHeight = window.innerHeight;
       const windowWidth = window.innerWidth;
       const popUpHeight = modalHeight;
       const popUpWidth = modalWidth;
       const additionalMargin = 20;
-      const style = document.createElement("style");
-      style.innerHTML = defaultStyle + cssStr;
-      style.id = "style-container";
-      document.body.appendChild(style);
+      document.querySelector('#style-container').innerHTML = defaultStyle + cssStr;
 
-      document.addEventListener("click", function (evt) {
+      function handleModalGenerator(evt) {
         if (checkClickedInsideElement(`.${modalGeneralClass}`, evt.target)) {
           checkClickedInsideElement('.close', evt.target) && removeModal();
           return;
         }
-        if (allowedSelectorsClick && !allowedSelectorsClick.filter(x => checkClickedInsideElement(x, evt.target)).length) {
-          closeOnOutsideClick && removeModal();
-          return;
-        };
-        removeModal();
-        evt.preventDefault();
-        evt.stopPropagation();
-        const sectionContent = evt.target.tagName.toLowerCase() === 'a' ? `<iframe style="height: 100%; width: 100%;" src='${evt.target.href}'> </iframe>` : content;
-        const div = document.createElement("div");
-        cssClass.unshift(modalGeneralClass);
-        div.classList.add(...cssClass);
-        div.style.height = `${popUpHeight}px`;
-        div.style.width = `${popUpWidth}px`;
-        div.style.position = "absolute";
-        const evtClickedCoordinate = evt.pageY;
-        div.style.left = `${
-          evt.clientX + popUpWidth > windowWidth
-            ? evt.clientX - popUpWidth - additionalMargin
-            : evt.clientX + additionalMargin
-          }px`;
-        div.style.top = `${
-          evtClickedCoordinate + popUpHeight > windowHeight
-            ? evtClickedCoordinate - popUpHeight
-            : evtClickedCoordinate
-          }px`;
+        if (allowedSelectorsClick && allowedSelectorsClick.filter(x => checkClickedInsideElement(x, evt.target)).length) {
+          removeModal();
+          evt.preventDefault();
+          evt.stopPropagation();
+          const sectionContent = evt.target.tagName.toLowerCase() === 'a' ? `<iframe style="height: 100%; width: 100%;" src='${evt.target.href}'> </iframe>` : content;
+          const div = document.createElement("div");
+          cssClass.unshift(modalGeneralClass);
+          div.classList.add(...cssClass);
+          div.style.height = `${popUpHeight}px`;
+          div.style.width = `${popUpWidth}px`;
+          div.style.position = "absolute";
+          const evtClickedCoordinate = evt.pageY;
+          div.style.left = `${
+            evt.clientX + popUpWidth > windowWidth
+              ? evt.clientX - popUpWidth - additionalMargin
+              : evt.clientX + additionalMargin
+            }px`;
+          div.style.top = `${
+            evtClickedCoordinate + popUpHeight > windowHeight
+              ? evtClickedCoordinate - popUpHeight
+              : evtClickedCoordinate
+            }px`;
 
-        div.innerHTML = `
-    <header><span>${heading}</span> <span class="close"> </span> </header>
+          const headingTag = heading ? `<header><span>${heading}</span> <span class="close"> </span> </header>` : '';
+          div.innerHTML = ` ${headingTag}
     <section class="main-section">
     ${sectionContent || content}
     </section>`;
-        document.body.appendChild(div);
-      });
+          document.body.appendChild(div);
+          return;
+        };
+      }
+
+      document.addEventListener("click", handleModalGenerator);
+      // useHover && document.addEventListener("mouseover", handleModalGenerator);
+      // document.addEventListener("dblclick", handleModalGenerator);
     };
   })();
 
@@ -159,6 +164,20 @@ Providing a third action such as “Learn more” is not recommended as it navig
     // cssStr: `.myClass {
     //     background-color: #ececec;
     // }`,
+  });
+
+  generateModal({
+    modalHeight: 50,
+    modalWidth: 250,
+    content: `Dialogs should contain a maximum of two actions. Can be shown the title or large text`,
+    cssClass: ["myClass", "third-class-modal"],
+    allowedSelectorsClick: ['.third-section'],
+    closeOnOutsideClick: true,
+    useHover: true,
+    cssStr: `.third-class-modal {
+        padding: 10px;
+        background-color: #79aeb5;
+    }`,
   });
 
 };
