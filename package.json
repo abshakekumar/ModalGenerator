@@ -1,6 +1,6 @@
 {
   "name": "modal-generator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Pop Up Creator on Click.",
   "main": "index.js",
   "scripts": {

@@ -6,7 +6,6 @@ specified selector a pop-up is generated at the cursor point. It can be used for
 ## Demo
 
 - [CodeSandBox Demo](https://codesandbox.io/s/react-basic-class-component-jrtfm)
-- [Stackblitz Demo](https://www.google.com)
 
 # Installation
 
