@@ -5,7 +5,7 @@ specified selector a pop-up is generated at the cursor point. It can be used for
 
 ## Demo
 
-- [CodeSandBox Demo](https://www.google.com)
+- [CodeSandBox Demo](https://codesandbox.io/s/react-basic-class-component-jrtfm)
 - [Stackblitz Demo](https://www.google.com)
 
 # Installation
@@ -30,7 +30,7 @@ ModalGenerator({
     });
 ```
 
-Detailed usage of the `model-generator` can be seen via the demo examples.
+Detailed usage of the `modal-generator` can be seen via the demo examples.
 
 ## Options
 

@@ -1,0 +1,28 @@
+{
+  "name": "modal-generator",
+  "version": "1.0.0",
+  "description": "Pop Up Creator on Click.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abshakekumar/ModalGenerator.git"
+  },
+  "keywords": [
+    "modal",
+    "modal-generator",
+    "modal-dailogs",
+    "pop-up",
+    "pop-up-on-click",
+    "tooltip",
+    "tooltip-generator"
+  ],
+  "author": "Abhishek Kumar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abshakekumar/ModalGenerator/issues"
+  },
+  "homepage": "https://github.com/abshakekumar/ModalGenerator#readme"
+}
